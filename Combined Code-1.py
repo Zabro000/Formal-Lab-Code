@@ -26,10 +26,11 @@ lightSensor.openWaitForAttachment(1000)
 
 #Calculatus the period using time it takes for the light sensor to see the light attached to the arm
 def period(BrightnessRegistor):
-    
     CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter()
     Time2 = 0
+#need to add if the time is less than resonable then pause the function and say:
+    #stop holding the light to the sensor!!
     while(CurrentLightValue < BrightnessRegistor):
           CurrentLightValue = lightSensor.getIlluminance()
           time.sleep(0.4)
