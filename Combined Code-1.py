@@ -21,6 +21,12 @@ lightSensor = LightSensor()
 #Open
 accelerometer.openWaitForAttachment(1000)
 lightSensor.openWaitForAttachment(1000)
+
+def period:
+    #Period = time over cycles 
+    return Period
+
+
 SD = int(input("How many decimal places do you want to round to?"))
 print("put anything to start the loops")
 a = input()
@@ -48,3 +54,6 @@ print("out of the loop now ahh")
 
 print("input anything to start the main program")
 a = input()
+while(True):
+    period()
+    
