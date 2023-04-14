@@ -11,7 +11,7 @@ import numpy as np
 # remeber to comment lots 
 
 
-LightSamples = 35
+LightSamples = 25
 i = 0
 SampleSum =  0
 LightCoe = 10
@@ -24,12 +24,23 @@ lightSensor = LightSensor()
 #accelerometer.openWaitForAttachment(1000)
 lightSensor.openWaitForAttachment(1000)
 
+#Calculatus the period using time it takes for the light sensor to see the light attached to the arm
 def period(BrightnessRegistor):
-    LightLxValue = lightSensor.getIlluminance()
-    if(LightLxValue > BrightnessRegistor):
-        Period = 1
+    
+    CurrentLightValue = lightSensor.getIlluminance()
+    Time1 = time.perf_counter()
+    Time2 = 0
+    while(CurrentLightValue < BrightnessRegistor):
+          CurrentLightValue = lightSensor.getIlluminance()
+          time.sleep(0.4)
+          if(CurrentLightValue > BrightnessRegistor):
+            Time2 = time.perf_counter()
+            print("break")
+            break
         
         
+    Period = 1/(Time2 - Time1)
+    print("period = ", Period)
     
     #Period = time over cycles 
     return Period
