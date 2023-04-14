@@ -10,8 +10,8 @@ import numpy as np
 
 # remeber to comment lots 
 
-SD = 2
-LightSamples = 70
+
+LightSamples = 35
 i = 0
 SampleSum =  0 
 #Create
@@ -19,9 +19,10 @@ SampleSum =  0
 lightSensor = LightSensor()
 
 #Open
-#accelerometer.openWaitForAttachment(1000)
+accelerometer.openWaitForAttachment(1000)
 lightSensor.openWaitForAttachment(1000)
-print("unput anything to start the loops")
+SD = int(input("How many decimal places do you want to round to?"))
+print("put anything to start the loops")
 a = input()
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
 while(i < LightSamples):
@@ -29,6 +30,7 @@ while(i < LightSamples):
     print(i)
 print("done loop")
 i = 0
+print("Do not change lighting")
 while (i < LightSamples):
     #SampleSum =+ lightSensor.getIlluminance()
     print(lightSensor.getIlluminance())
@@ -44,14 +46,5 @@ while (i < LightSamples):
 
 print("out of the loop now ahh")
 
-#Use your Phidgets
-#while (True):
-    #print("Acceleration: x = " + str(round(accelerometer.getAcceleration()[0],SD)) + " g | y = " + str(round(accelerometer.getAcceleration()[1],SD)) +" g | z = " + str(round(accelerometer.getAcceleration()[2],SD)))
-    #time.sleep(.25)
-    #I just changed it
-
-
-
-    #Use your Phidgets
-    #print("Illuminance: " + float(lightSensor.getIlluminance()) + " lx")
-    #time.sleep(0.01)
+print("input anything to start the main program")
+a = input()
