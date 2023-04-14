@@ -42,7 +42,7 @@ while (i < LightSamples):
         print("done :)")
         break
 
-print("out of the loop now")
+print("out of the loop now ahh")
 
 #Use your Phidgets
 #while (True):
