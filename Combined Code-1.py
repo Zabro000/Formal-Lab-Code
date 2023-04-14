@@ -13,16 +13,24 @@ import numpy as np
 
 LightSamples = 35
 i = 0
-SampleSum =  0 
+SampleSum =  0
+LightCoe = 10
+
 #Create
 #accelerometer = Accelerometer()
 lightSensor = LightSensor()
 
 #Open
-accelerometer.openWaitForAttachment(1000)
+#accelerometer.openWaitForAttachment(1000)
 lightSensor.openWaitForAttachment(1000)
 
-def period:
+def period(BrightnessRegistor):
+    LightLxValue = lightSensor.getIlluminance()
+    if(LightLxValue > BrightnessRegistor):
+        Period = 1
+        
+        
+    
     #Period = time over cycles 
     return Period
 
@@ -45,15 +53,22 @@ while (i < LightSamples):
     i = i + 1
     print("Cycles =", i)
     if i == LightSamples:
+        #when the amount of times ran is over the brightness to registor a period is callculated
+        #the average brightness is also calculated
+        #loop is broken
         AverageBrightness = SampleSum/LightSamples
+        BrightnessRegistor = AverageBrightness + LightCoe
         print("Average brightness is,", round(AverageBrightness,SD))
         print("done :)")
         break
+
 
 print("out of the loop now ahh")
 
 print("input anything to start the main program")
 a = input()
 while(True):
-    period()
+   Period = period(BrightnessRegistor)
+   print("this is the period,", Period)
+    
     
