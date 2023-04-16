@@ -27,7 +27,7 @@ lightSensor.openWaitForAttachment(1000)
 #Calculatus the period using time it takes for the light sensor to see the light attached to the arm
 def period(BrightnessRegistor,MinTimeDifference):
     CurrentLightValue = lightSensor.getIlluminance()
-    Time1 = time.perf_counter()
+    Time1 = time.perf_counter() # doesnt change in while loop STAR
     print("Time1",Time1)
     #print("Time1 =", Time1)
     Time2 = 0
@@ -48,6 +48,7 @@ def period(BrightnessRegistor,MinTimeDifference):
                   continue
               elif(Period > MinTimeDifference):
                   print("broke")
+                  return Period 
                   
           
     
@@ -105,8 +106,21 @@ i = 0
 ProgramCheck = 400
 Break = 0
 while(Break == 0):
-    Period = period(BrightnessRegistor,MinTimeDifference)
-    print
+    
+    
+    LoopTimeStart = time.perf_counter()
+    while(True):
+        Period = period(BrightnessRegistor,MinTimeDifference)
+        LoopTimeStop = time.perf_counter()
+        ChangeInLoopTime = LoopTimeStop - LoopTimeStart
+        if(ChangeInLoopTime < 0.11):
+            continue
+        else:
+            LoopTimeEnd = time.perf_counter()
+            RealPeriod = LoopTimeEnd - LoopTimeStart
+            break
+    print(" Real Period is ", RealPeriod)
+    print(" Period is ", Period)
     #cleanprint(Period,MinTimeDifference)
     
     
@@ -135,7 +149,7 @@ while(Break == 0):
         
 print("program ended")
 while(True):
-    i = 0
+    pass
     
         
         
