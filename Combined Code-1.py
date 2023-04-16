@@ -44,41 +44,20 @@ def period(BrightnessRegistor):
     #Period = time over cycles 
     return Period
 
-<<<<<<< Updated upstream
+
 def cleanprint(Period,MinTimeDifference):
     if(Period < MinTimeDifference):
         return
     print("this is the period,", Period)
     return
-    
-    
-    
-
-=======
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-
-SD = int(input("How many decimal places do you want to round to?"))
-print("put anything to start the loops")
-a = input()
-=======
-def cleanprint(Period,MinTimeDifference):
-    if(Period < MinTimeDifference):
-        return
-    print("this is the period,", Period)
-    return
-
-#will use later
+   
+   
 def CSVwrite():
     return
-
-    
-    
-
+     
 ## main program starts here ########################################################
 SD = int(input("How many decimal places do you want to round to? "))
 input("put anything to start the loops. ")
->>>>>>> Stashed changes
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
 print("Loading...")
 while(i < LightSamples):
