@@ -89,10 +89,41 @@ while (i < LightSamples):
 
 input("Input anything to start the main program. ")
 
-
-while(True):
+i = 0
+ProgramCheck = 400
+Break = 0
+while(Break == 0):
     Period = period(BrightnessRegistor)
     cleanprint(Period,MinTimeDifference)
+    
+    
+    
+    # After some amount of loops this program runs it asks if more observations
+    #Still want to be done, using i varbile to count times
+    i = i + 1
+    
+    print(i)
+    if(i >=  ProgramCheck):
+        print("Do you want to break out of program? Type, 1 for yes, 2 for no")
+        Command = int(input())
+        if(Command == 1):
+            i = 0
+            Break = 1
+            print(Break)
+            continue
+        elif(Command == 2):
+            i = 0
+            continue
+        
+print("program ended")
+while(True):
+    i = 0
+    
+        
+        
+
+    
+    
     
     
     
