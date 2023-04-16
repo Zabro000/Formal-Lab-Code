@@ -15,6 +15,7 @@ LightSamples = 25
 i = 0
 SampleSum =  0
 LightCoe = 40
+MinTimeDifference = 0.001
 
 #Create
 #accelerometer = Accelerometer()
@@ -28,29 +29,32 @@ lightSensor.openWaitForAttachment(1000)
 def period(BrightnessRegistor):
     CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter()
-    print("Time1 =", Time1)
+    #print("Time1 =", Time1)
     Time2 = 0
 #need to add if the time is less than resonable then pause the function and say:
     #stop holding the light to the sensor!!
     while(CurrentLightValue < BrightnessRegistor):
           CurrentLightValue = lightSensor.getIlluminance()
-          time.sleep(0.2)
+          time.sleep(0.1)
           if(CurrentLightValue > BrightnessRegistor):
             Time2 = time.perf_counter()
-            print("Time2 =", Time2)
-            print("break")
+            #print("Time2 =", Time2)
+            #print("break")
             break
         
         
     Period = (Time2 - Time1)
-    #if statement prevents terminal output if the light is just held up to photosensor
-    if(Period < 0.001):
-        return
-    
-    print("period = ", Period)
-    
     #Period = time over cycles 
     return Period
+
+def cleanprint(Period,MinTimeDifference):
+    if(Period < MinTimeDifference):
+        return
+    print("this is the period,", Period)
+    return
+    
+    
+    
 
 
 SD = int(input("How many decimal places do you want to round to?"))
@@ -86,7 +90,7 @@ print("out of the loop now ahh")
 print("input anything to start the main program")
 a = input()
 while(True):
-   Period = period(BrightnessRegistor)
-   print("this is the period,", Period)
+    Period = period(BrightnessRegistor)
+    cleanprint(Period,MinTimeDifference)
     
     
