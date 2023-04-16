@@ -14,7 +14,7 @@ LightSamples = 25
 i = 0
 SampleSum =  0
 LightCoe = 40
-MinTimeDifference = 0.001
+MinTimeDifference = 0.15
 #accelerometer = Accelerometer()
 #accelerometer.openWaitForAttachment(1000)   
 #accelerometer = Accelerometer()
@@ -28,7 +28,7 @@ lightSensor.openWaitForAttachment(1000)
 def period(BrightnessRegistor,MinTimeDifference):
     CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter() # doesnt change in while loop STAR
-    print("Time1",Time1)
+    #print("Time1",Time1)
     #print("Time1 =", Time1)
     Time2 = 0
     Period = 0
@@ -36,18 +36,17 @@ def period(BrightnessRegistor,MinTimeDifference):
     #stop holding the light to the sensor!!
     while(True):
           CurrentLightValue = lightSensor.getIlluminance()
-          print("CurrentLightValue", CurrentLightValue)
-          time.sleep(0.1)
+          time.sleep(0.05)
           if(CurrentLightValue > BrightnessRegistor):
               Time2 = time.perf_counter()
               Period = (Time2 - Time1)
-              print("PeriodCheck", Period)
-              if(Period < 0.01):
-                  print("Continue")
+              #print("PeriodCheck", Period)
+              if(Period < 0.2):
+                  #print("Continue")
                   Period = 0
                   continue
               elif(Period > MinTimeDifference):
-                  print("broke")
+                  #print("broke")
                   return Period 
                   
           
@@ -113,7 +112,7 @@ while(Break == 0):
         Period = period(BrightnessRegistor,MinTimeDifference)
         LoopTimeStop = time.perf_counter()
         ChangeInLoopTime = LoopTimeStop - LoopTimeStart
-        if(ChangeInLoopTime < 0.11):
+        if(ChangeInLoopTime < 0.10):
             continue
         else:
             LoopTimeEnd = time.perf_counter()
