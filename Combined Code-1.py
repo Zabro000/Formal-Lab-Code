@@ -10,10 +10,12 @@ import numpy as np
 
 # remeber to comment lots 
 
-SD = 2
-LightSamples = 70
+
+LightSamples = 25
 i = 0
-SampleSum =  0 
+SampleSum =  0
+LightCoe = 40
+
 #Create
 #accelerometer = Accelerometer()
 lightSensor = LightSensor()
@@ -21,7 +23,38 @@ lightSensor = LightSensor()
 #Open
 #accelerometer.openWaitForAttachment(1000)
 lightSensor.openWaitForAttachment(1000)
-print("unput anything to start the loops")
+
+#Calculatus the period using time it takes for the light sensor to see the light attached to the arm
+def period(BrightnessRegistor):
+    CurrentLightValue = lightSensor.getIlluminance()
+    Time1 = time.perf_counter()
+    print("Time1 =", Time1)
+    Time2 = 0
+#need to add if the time is less than resonable then pause the function and say:
+    #stop holding the light to the sensor!!
+    while(CurrentLightValue < BrightnessRegistor):
+          CurrentLightValue = lightSensor.getIlluminance()
+          time.sleep(0.2)
+          if(CurrentLightValue > BrightnessRegistor):
+            Time2 = time.perf_counter()
+            print("Time2 =", Time2)
+            print("break")
+            break
+        
+        
+    Period = (Time2 - Time1)
+    #if statement prevents terminal output if the light is just held up to photosensor
+    if(Period < 0.001):
+        return
+    
+    print("period = ", Period)
+    
+    #Period = time over cycles 
+    return Period
+
+
+SD = int(input("How many decimal places do you want to round to?"))
+print("put anything to start the loops")
 a = input()
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
 while(i < LightSamples):
@@ -29,6 +62,7 @@ while(i < LightSamples):
     print(i)
 print("done loop")
 i = 0
+print("Do not change lighting")
 while (i < LightSamples):
     #SampleSum =+ lightSensor.getIlluminance()
     print(lightSensor.getIlluminance())
@@ -37,21 +71,22 @@ while (i < LightSamples):
     i = i + 1
     print("Cycles =", i)
     if i == LightSamples:
+        #when the amount of times ran is over the brightness to registor a period is callculated
+        #the average brightness is also calculated
+        #loop is broken
         AverageBrightness = SampleSum/LightSamples
+        BrightnessRegistor = AverageBrightness + LightCoe
         print("Average brightness is,", round(AverageBrightness,SD))
         print("done :)")
         break
 
+
 print("out of the loop now ahh")
 
-#Use your Phidgets
-#while (True):
-    #print("Acceleration: x = " + str(round(accelerometer.getAcceleration()[0],SD)) + " g | y = " + str(round(accelerometer.getAcceleration()[1],SD)) +" g | z = " + str(round(accelerometer.getAcceleration()[2],SD)))
-    #time.sleep(.25)
-    #I just changed it
-
-
-
-    #Use your Phidgets
-    #print("Illuminance: " + float(lightSensor.getIlluminance()) + " lx")
-    #time.sleep(0.01)
+print("input anything to start the main program")
+a = input()
+while(True):
+   Period = period(BrightnessRegistor)
+   print("this is the period,", Period)
+    
+    
