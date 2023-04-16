@@ -25,25 +25,35 @@ lightSensor.openWaitForAttachment(1000)
 
 
 #Calculatus the period using time it takes for the light sensor to see the light attached to the arm
-def period(BrightnessRegistor):
+def period(BrightnessRegistor,MinTimeDifference):
     CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter()
     #print("Time1 =", Time1)
     Time2 = 0
+    Period = 0
 #need to add if the time is less than resonable then pause the function and say:
     #stop holding the light to the sensor!!
     while(CurrentLightValue < BrightnessRegistor):
           CurrentLightValue = lightSensor.getIlluminance()
           time.sleep(0.1)
           if(CurrentLightValue > BrightnessRegistor):
-            Time2 = time.perf_counter()
-            #print("Time2 =", Time2)
-            #print("break")
-            break
-           
+              Time2 = time.perf_counter()
+              PeriodCheck = (Time2 - Time1)
+              print("PeriodCheck", PeriodCheck)
+              if(PeriodCheck < MinTimeDifference):
+                  print("Continue")
+                  Period = 0
+                  continue
+              elif(PeriodCheck > MinTimeDifference):
+                  print("broke")
+                  break
+          
     Period = (Time2 - Time1)
     #Period = time over cycles 
     return Period
+
+def smallperiod():
+    Time2 = time.perf_counter()
 
 
 def cleanprint(Period,MinTimeDifference):
@@ -93,8 +103,14 @@ i = 0
 ProgramCheck = 400
 Break = 0
 while(Break == 0):
-    Period = period(BrightnessRegistor)
-    cleanprint(Period,MinTimeDifference)
+    Period = period(BrightnessRegistor,MinTimeDifference)
+    print
+    #cleanprint(Period,MinTimeDifference)
+    
+    
+    
+    
+    
     
     
     
@@ -102,7 +118,7 @@ while(Break == 0):
     #Still want to be done, using i varbile to count times
     i = i + 1
     
-    print(i)
+    print(i,"and period", Period)
     if(i >=  ProgramCheck):
         print("Do you want to break out of program? Type, 1 for yes, 2 for no")
         Command = int(input())
