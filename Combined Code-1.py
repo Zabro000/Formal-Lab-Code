@@ -15,11 +15,12 @@ i = 0
 SampleSum =  0
 LightCoe = 40
 MinTimeDifference = 0.001
-
+#accelerometer = Accelerometer()
+#accelerometer.openWaitForAttachment(1000)   
 #accelerometer = Accelerometer()
 lightSensor = LightSensor()
-#accelerometer.openWaitForAttachment(1000)
 lightSensor.openWaitForAttachment(1000)
+
 
 
 
@@ -88,9 +89,11 @@ while (i < LightSamples):
 
 input("Input anything to start the main program. ")
 
+
 while(True):
     Period = period(BrightnessRegistor)
     cleanprint(Period,MinTimeDifference)
+    
     
     
     
