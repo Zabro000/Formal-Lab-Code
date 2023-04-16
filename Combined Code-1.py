@@ -28,12 +28,13 @@ lightSensor.openWaitForAttachment(1000)
 def period(BrightnessRegistor,MinTimeDifference):
     CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter()
+    print("Time1",Time1)
     #print("Time1 =", Time1)
     Time2 = 0
     Period = 0
 #need to add if the time is less than resonable then pause the function and say:
     #stop holding the light to the sensor!!
-    while(CurrentLightValue < BrightnessRegistor):
+    while(True):
           CurrentLightValue = lightSensor.getIlluminance()
           print("CurrentLightValue", CurrentLightValue)
           time.sleep(0.1)
