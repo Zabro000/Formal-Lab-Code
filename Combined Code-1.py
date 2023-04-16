@@ -35,22 +35,23 @@ def period(BrightnessRegistor,MinTimeDifference):
     #stop holding the light to the sensor!!
     while(CurrentLightValue < BrightnessRegistor):
           CurrentLightValue = lightSensor.getIlluminance()
+          print("CurrentLightValue", CurrentLightValue)
           time.sleep(0.1)
           if(CurrentLightValue > BrightnessRegistor):
               Time2 = time.perf_counter()
-              PeriodCheck = (Time2 - Time1)
-              print("PeriodCheck", PeriodCheck)
-              if(PeriodCheck < MinTimeDifference):
+              Period = (Time2 - Time1)
+              print("PeriodCheck", Period)
+              if(Period < 0.01):
                   print("Continue")
                   Period = 0
                   continue
-              elif(PeriodCheck > MinTimeDifference):
+              elif(Period > MinTimeDifference):
                   print("broke")
-                  break
+                  
           
-    Period = (Time2 - Time1)
+    
     #Period = time over cycles 
-    return Period
+    
 
 def smallperiod():
     Time2 = time.perf_counter()
