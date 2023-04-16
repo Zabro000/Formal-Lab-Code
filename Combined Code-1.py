@@ -14,7 +14,7 @@ import numpy as np
 LightSamples = 25
 i = 0
 SampleSum =  0
-LightCoe = 10
+LightCoe = 40
 
 #Create
 #accelerometer = Accelerometer()
@@ -28,19 +28,25 @@ lightSensor.openWaitForAttachment(1000)
 def period(BrightnessRegistor):
     CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter()
+    print("Time1 =", Time1)
     Time2 = 0
 #need to add if the time is less than resonable then pause the function and say:
     #stop holding the light to the sensor!!
     while(CurrentLightValue < BrightnessRegistor):
           CurrentLightValue = lightSensor.getIlluminance()
-          time.sleep(0.4)
+          time.sleep(0.2)
           if(CurrentLightValue > BrightnessRegistor):
             Time2 = time.perf_counter()
+            print("Time2 =", Time2)
             print("break")
             break
         
         
-    Period = 1/(Time2 - Time1)
+    Period = (Time2 - Time1)
+    #if statement prevents terminal output if the light is just held up to photosensor
+    if(Period < 0.001):
+        return
+    
     print("period = ", Period)
     
     #Period = time over cycles 
