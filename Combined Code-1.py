@@ -14,7 +14,7 @@ LightSamples = 25
 i = 0
 SampleSum =  0
 LightCoe = 40
-MinTimeDifference = 0.15
+MinTimeDifference = 0.1
 #accelerometer = Accelerometer()
 #accelerometer.openWaitForAttachment(1000)   
 #accelerometer = Accelerometer()
@@ -25,7 +25,7 @@ lightSensor.openWaitForAttachment(1000)
 
 
 #Calculatus the period using time it takes for the light sensor to see the light attached to the arm
-def period(BrightnessRegistor,MinTimeDifference):
+def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
     CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter() # doesnt change in while loop STAR
     #print("Time1",Time1)
@@ -41,10 +41,10 @@ def period(BrightnessRegistor,MinTimeDifference):
               Time2 = time.perf_counter()
               Period = (Time2 - Time1)
               #print("PeriodCheck", Period)
-              if(Period < 0.2):
+              if(Period < MinTimeDifference):
                   #print("Continue")
                   Period = 0
-                  continue
+                  return Period
               elif(Period > MinTimeDifference):
                   #print("broke")
                   return Period 
@@ -105,21 +105,25 @@ i = 0
 ProgramCheck = 400
 Break = 0
 while(Break == 0):
-    
-    
+
     LoopTimeStart = time.perf_counter()
     while(True):
-        Period = period(BrightnessRegistor,MinTimeDifference)
-        LoopTimeStop = time.perf_counter()
-        ChangeInLoopTime = LoopTimeStop - LoopTimeStart
-        if(ChangeInLoopTime < 0.10):
+        Period = period(BrightnessRegistor,MinTimeDifference,LoopTimeStart)
+        #print("Period", Period)
+        #LoopTimeStop = time.perf_counter()
+        # ChangeInLoopTime = LoopTimeStop - LoopTimeStart
+        if(Period < MinTimeDifference):
             continue
         else:
-            LoopTimeEnd = time.perf_counter()
-            RealPeriod = LoopTimeEnd - LoopTimeStart
+            
+            #LoopTimeEnd = time.perf_counter()
+            #RealPeriod = LoopTimeEnd - LoopTimeStart
             break
-    print(" Real Period is ", RealPeriod)
+    
+    i = i + 1
+#     print(" Real Period is ", RealPeriod)
     print(" Period is ", Period)
+    print("loop count ", i)
     #cleanprint(Period,MinTimeDifference)
     
     
@@ -131,9 +135,7 @@ while(Break == 0):
     
     # After some amount of loops this program runs it asks if more observations
     #Still want to be done, using i varbile to count times
-    i = i + 1
     
-    print(i,"and period", Period)
     if(i >=  ProgramCheck):
         print("Do you want to break out of program? Type, 1 for yes, 2 for no")
         Command = int(input())
