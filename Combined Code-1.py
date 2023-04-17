@@ -20,6 +20,7 @@ MinTimeDifference = 0.1
 #accelerometer = Accelerometer()
 lightSensor = LightSensor()
 lightSensor.openWaitForAttachment(1000)
+PeriodTolerance = 0.25
 
 
 
@@ -105,8 +106,9 @@ input("Input anything to start the main program. ")
 i = 0
 ProgramCheck = 400
 Break = 0
+PeriodInital = 0
+PeriodFinal = 0
 while(Break == 0):
-
     LoopTimeStart = time.perf_counter()
     while(True):
         Period = period(BrightnessRegistor,MinTimeDifference,LoopTimeStart)
@@ -126,11 +128,15 @@ while(Break == 0):
     print(" Period is ", Period)
     print("loop count ", i)
     #cleanprint(Period,MinTimeDifference)
-    
     PeriodFinal = Period
+    print("PeriodFinal = ", PeriodFinal)
+    
     ChangeInPeriod = PeriodFinal - PeriodInital
     
-    if(ChangeInPeriod < 0.5):
+    PeriodInital = PeriodFinal
+    print("PeriodInital", PeriodInital)
+    print("ChangeInPeriod", ChangeInPeriod)
+    if(-PeriodTolerance < ChangeInPeriod < PeriodTolerance):
         print("Type in anything to release the Solenoids")
         input()
         CurrentLightValue = lightSensor.getIlluminance()
