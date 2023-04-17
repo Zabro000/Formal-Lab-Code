@@ -40,14 +40,15 @@ def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
           if(CurrentLightValue > BrightnessRegistor):
               Time2 = time.perf_counter()
               Period = (Time2 - Time1)
+              return Period
               #print("PeriodCheck", Period)
-              if(Period < MinTimeDifference):
-                  #print("Continue")
-                  Period = 0
-                  return Period
-              elif(Period > MinTimeDifference):
-                  #print("broke")
-                  return Period 
+#               if(Period < MinTimeDifference):
+#                   #print("Continue")
+#                   Period = 0
+#                   return Period
+#               elif(Period > MinTimeDifference):
+#                   #print("broke")
+#                   return Period 
                   
           
     
