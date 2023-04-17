@@ -126,6 +126,20 @@ while(Break == 0):
     print("loop count ", i)
     #cleanprint(Period,MinTimeDifference)
     
+    PeriodFinal = Period
+    ChangeInPeriod = PeriodFinal - PeriodInital
+    
+    if(ChangeInPeriod < 0.5):
+        print("Type in anything to release the Solenoids")
+        input()
+        CurrentLightValue = lightSensor.getIlluminance()
+        time.sleep(0.05)
+        if(CurrentLightValue > BrightnessRegistor):
+            #Relase Solenoids and record Period, VC
+            pass
+        
+        
+    
     
     
     
