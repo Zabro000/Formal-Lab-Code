@@ -14,36 +14,49 @@ LightSamples = 25
 i = 0
 SampleSum =  0
 LightCoe = 40
-MinTimeDifference = 0.001
+MinTimeDifference = 0.1
 #accelerometer = Accelerometer()
 #accelerometer.openWaitForAttachment(1000)   
 #accelerometer = Accelerometer()
 lightSensor = LightSensor()
 lightSensor.openWaitForAttachment(1000)
+PeriodTolerance = 0.10
 
 
 
 
 #Calculatus the period using time it takes for the light sensor to see the light attached to the arm
-def period(BrightnessRegistor):
-    CurrentLightValue = lightSensor.getIlluminance()
-    Time1 = time.perf_counter()
+def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
+    Time1 = time.perf_counter() # doesnt change in while loop STAR
+    #print("Time1",Time1)
     #print("Time1 =", Time1)
     Time2 = 0
+    Period = 0
 #need to add if the time is less than resonable then pause the function and say:
     #stop holding the light to the sensor!!
-    while(CurrentLightValue < BrightnessRegistor):
+    while(True):
           CurrentLightValue = lightSensor.getIlluminance()
-          time.sleep(0.1)
+          time.sleep(0.01)
           if(CurrentLightValue > BrightnessRegistor):
-            Time2 = time.perf_counter()
-            #print("Time2 =", Time2)
-            #print("break")
-            break
-           
-    Period = (Time2 - Time1)
+              Time2 = time.perf_counter()
+              Period = (Time2 - Time1)
+              return Period
+              #print("PeriodCheck", Period)
+#               if(Period < MinTimeDifference):
+#                   #print("Continue")
+#                   Period = 0
+#                   return Period
+#               elif(Period > MinTimeDifference):
+#                   #print("broke")
+#                   return Period 
+                  
+          
+    
     #Period = time over cycles 
-    return Period
+    
+
+def smallperiod():
+    Time2 = time.perf_counter()
 
 
 def cleanprint(Period,MinTimeDifference):
@@ -89,10 +102,84 @@ while (i < LightSamples):
 
 input("Input anything to start the main program. ")
 
+i = 0
+ProgramCheck = 400
+Break = 0
+PeriodInital = 0
+PeriodFinal = 0
 
+while(Break == 0):
+    LoopTimeStart = time.perf_counter()
+    while(True):
+        Period = period(BrightnessRegistor,MinTimeDifference,LoopTimeStart)
+        #print("Period", Period)
+        #LoopTimeStop = time.perf_counter()
+        # ChangeInLoopTime = LoopTimeStop - LoopTimeStart
+        if(Period < MinTimeDifference):
+            continue
+        else:
+            
+            #LoopTimeEnd = time.perf_counter()
+            #RealPeriod = LoopTimeEnd - LoopTimeStart
+            break
+    
+    i = i + 1
+#     print(" Real Period is ", RealPeriod)
+    print(" Period is ", round(Period,SD))
+    #cleanprint(Period,MinTimeDifference)
+    PeriodFinal = Period
+    print("PeriodInital", round(PeriodInital,SD))
+    
+    ChangeInPeriod = PeriodFinal - PeriodInital
+    
+    PeriodInital = PeriodFinal
+    print("PeriodFinal = ", round(PeriodFinal,SD))
+    print("ChangeInPeriod", round(ChangeInPeriod,SD))
+    print("loop count ", i)
+    print(" ")
+    
+    if(-PeriodTolerance < ChangeInPeriod < PeriodTolerance):
+        print("Type in anything to release the Solenoids")
+        input()
+        CurrentLightValue = lightSensor.getIlluminance()
+        time.sleep(0.02)
+        if(CurrentLightValue > BrightnessRegistor):
+            #Relase Solenoids and record Period, VC
+            pass
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    # After some amount of loops this program runs it asks if more observations
+    #Still want to be done, using i varbile to count times
+    
+    if(i >=  ProgramCheck):
+        print("Do you want to break out of program? Type, 1 for yes, 2 for no")
+        Command = int(input())
+        if(Command == 1):
+            i = 0
+            Break = 1
+            print(Break)
+            continue
+        elif(Command == 2):
+            i = 0
+            continue
+        
+print("program ended")
 while(True):
-    Period = period(BrightnessRegistor)
-    cleanprint(Period,MinTimeDifference)
+    pass
+    
+        
+        
+
+    
+    
     
     
     
