@@ -1,7 +1,7 @@
 #Add Phidgets Library
 from Phidget22.Phidget import *
-from Phidget22.Devices.Accelerometer import *
 from Phidget22.Devices.LightSensor import *
+from Phidget22.Devices.DCMotor import *
 #Required for sleep statement
 import time
 import array 
@@ -14,13 +14,15 @@ LightSamples = 25
 i = 0
 SampleSum =  0
 LightCoe = 40
-MinTimeDifference = 0.1
-#accelerometer = Accelerometer()
-#accelerometer.openWaitForAttachment(1000)   
-#accelerometer = Accelerometer()
+MinTimeDifference = 0.05
 lightSensor = LightSensor()
 lightSensor.openWaitForAttachment(1000)
 PeriodTolerance = 0.10
+
+
+#in meters and in kilograms, change these
+ArmRadius = 40
+ObjectMass = 2
 
 
 
@@ -28,12 +30,8 @@ PeriodTolerance = 0.10
 #Calculatus the period using time it takes for the light sensor to see the light attached to the arm
 def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
     Time1 = time.perf_counter() # doesnt change in while loop STAR
-    #print("Time1",Time1)
-    #print("Time1 =", Time1)
     Time2 = 0
     Period = 0
-#need to add if the time is less than resonable then pause the function and say:
-    #stop holding the light to the sensor!!
     while(True):
           CurrentLightValue = lightSensor.getIlluminance()
           time.sleep(0.01)
@@ -41,45 +39,38 @@ def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
               Time2 = time.perf_counter()
               Period = (Time2 - Time1)
               return Period
-              #print("PeriodCheck", Period)
-#               if(Period < MinTimeDifference):
-#                   #print("Continue")
-#                   Period = 0
-#                   return Period
-#               elif(Period > MinTimeDifference):
-#                   #print("broke")
-#                   return Period 
-                  
           
-    
-    #Period = time over cycles 
-    
-
+          
 def smallperiod():
     Time2 = time.perf_counter()
 
 
-def cleanprint(Period,MinTimeDifference):
-    if(Period < MinTimeDifference):
-        return
-    print("this is the period,", Period)
-    return
+# def cleanprint(Period,MinTimeDifference):
+#     if(Period < MinTimeDifference):
+#         return
+#     print("this is the period,", Period)
+#     return
+
+
+def Math(Period):
+    
    
-   
-def CSVwrite():
+def CSVwrite(Period):
+    
+    with open ('Lab_data.csv','a') as datafile:
+        datafile.write(str(Period) + "\n")
+        print("Period Data was writen")
+    
     return
-     
+
+
 ## main program starts here ########################################################
 SD = int(input("How many decimal places do you want to round to? "))
 input("put anything to start the loops. ")
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
-print("Loading...")
-while(i < LightSamples):
-    i = i + 1
-    print(i)
-print("done loop")
-i = 0
-print("Do not change lighting")
+print("Do not change the lighting of the room")
+
+time.sleep(3)
 
 while (i < LightSamples):
     #SampleSum =+ lightSensor.getIlluminance()
@@ -112,50 +103,38 @@ while(Break == 0):
     LoopTimeStart = time.perf_counter()
     while(True):
         Period = period(BrightnessRegistor,MinTimeDifference,LoopTimeStart)
-        #print("Period", Period)
-        #LoopTimeStop = time.perf_counter()
-        # ChangeInLoopTime = LoopTimeStop - LoopTimeStart
         if(Period < MinTimeDifference):
             continue
         else:
-            
-            #LoopTimeEnd = time.perf_counter()
-            #RealPeriod = LoopTimeEnd - LoopTimeStart
             break
     
-    i = i + 1
-#     print(" Real Period is ", RealPeriod)
-    print(" Period is ", round(Period,SD))
+#    print(" Real Period is ", RealPeriod)
+    print("Current period is: ", round(Period,SD))
     #cleanprint(Period,MinTimeDifference)
     PeriodFinal = Period
-    print("PeriodInital", round(PeriodInital,SD))
+    print("Inital period is:", round(PeriodInital,SD))
     
     ChangeInPeriod = PeriodFinal - PeriodInital
     
     PeriodInital = PeriodFinal
-    print("PeriodFinal = ", round(PeriodFinal,SD))
-    print("ChangeInPeriod", round(ChangeInPeriod,SD))
+    print("Final period is: ", round(PeriodFinal,SD))
+    print("The change in period is: ", round(ChangeInPeriod,SD))
+    
+    i = i + 1
     print("loop count ", i)
     print(" ")
     
     if(-PeriodTolerance < ChangeInPeriod < PeriodTolerance):
-        print("Type in anything to release the Solenoids")
-        input()
-        CurrentLightValue = lightSensor.getIlluminance()
-        time.sleep(0.02)
-        if(CurrentLightValue > BrightnessRegistor):
-            #Relase Solenoids and record Period, VC
-            pass
+        input("Type in anything to release the Solenoids ")
+        while(True):
+            CurrentLightValue = lightSensor.getIlluminance()
+            time.sleep(0.02)
+            if(CurrentLightValue > BrightnessRegistor):
+                #Relase Solenoids and record Period, VC
+                CSVwrite(Period)
+                break
+            
         
-        
-    
-    
-    
-    
-    
-    
-    
-    
     # After some amount of loops this program runs it asks if more observations
     #Still want to be done, using i varbile to count times
     
