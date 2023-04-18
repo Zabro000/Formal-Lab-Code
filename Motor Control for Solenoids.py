@@ -9,23 +9,34 @@ from Phidget22.Devices.DCMotor import *
 import time
 
 def onAttach(self):
-	print("Attach!")
+	print("Attach [" + str(self.getChannel()) + "]!")
 
 def onDetach(self):
-	print("Detach!")
+	print("Detach [" + str(self.getChannel()) + "]!")
 
 def main():
 	dcMotor0 = DCMotor()
+	dcMotor1 = DCMotor()
+
+	dcMotor0.setHubPort(5)
+	dcMotor0.setChannel(0)
+	dcMotor1.setHubPort(5)
+	dcMotor1.setChannel(1)
 
 	dcMotor0.setOnAttachHandler(onAttach)
 	dcMotor0.setOnDetachHandler(onDetach)
+	dcMotor1.setOnAttachHandler(onAttach)
+	dcMotor1.setOnDetachHandler(onDetach)
 
 	dcMotor0.openWaitForAttachment(5000)
+	dcMotor1.openWaitForAttachment(5000)
 
 	dcMotor0.setTargetVelocity(1)
+	dcMotor1.setTargetVelocity(1)
 
-	time.sleep(50)
+	time.sleep(90)
 
 	dcMotor0.close()
+	dcMotor1.close()
 
 main()
