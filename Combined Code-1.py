@@ -50,9 +50,6 @@ def smallperiod():
 #         return
 #     print("this is the period,", Period)
 #     return
-
-
-def Math(Period):
     
    
 def CSVwrite(Period):
@@ -60,6 +57,7 @@ def CSVwrite(Period):
     with open ('Lab_data.csv','a') as datafile:
         datafile.write(str(Period) + "\n")
         print("Period Data was writen")
+        
     
     return
 
@@ -101,7 +99,8 @@ PeriodFinal = 0
 
 while(Break == 0):
     LoopTimeStart = time.perf_counter()
-    while(True):
+   
+   while(True):
         Period = period(BrightnessRegistor,MinTimeDifference,LoopTimeStart)
         if(Period < MinTimeDifference):
             continue
