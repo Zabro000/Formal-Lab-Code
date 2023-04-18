@@ -20,14 +20,13 @@ MinTimeDifference = 0.1
 #accelerometer = Accelerometer()
 lightSensor = LightSensor()
 lightSensor.openWaitForAttachment(1000)
-PeriodTolerance = 0.25
+PeriodTolerance = 0.10
 
 
 
 
 #Calculatus the period using time it takes for the light sensor to see the light attached to the arm
 def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
-    CurrentLightValue = lightSensor.getIlluminance()
     Time1 = time.perf_counter() # doesnt change in while loop STAR
     #print("Time1",Time1)
     #print("Time1 =", Time1)
@@ -37,7 +36,7 @@ def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
     #stop holding the light to the sensor!!
     while(True):
           CurrentLightValue = lightSensor.getIlluminance()
-          time.sleep(0.05)
+          time.sleep(0.01)
           if(CurrentLightValue > BrightnessRegistor):
               Time2 = time.perf_counter()
               Period = (Time2 - Time1)
@@ -108,6 +107,7 @@ ProgramCheck = 400
 Break = 0
 PeriodInital = 0
 PeriodFinal = 0
+
 while(Break == 0):
     LoopTimeStart = time.perf_counter()
     while(True):
@@ -125,22 +125,24 @@ while(Break == 0):
     
     i = i + 1
 #     print(" Real Period is ", RealPeriod)
-    print(" Period is ", Period)
-    print("loop count ", i)
+    print(" Period is ", round(Period,SD))
     #cleanprint(Period,MinTimeDifference)
     PeriodFinal = Period
-    print("PeriodFinal = ", PeriodFinal)
+    print("PeriodInital", round(PeriodInital,SD))
     
     ChangeInPeriod = PeriodFinal - PeriodInital
     
     PeriodInital = PeriodFinal
-    print("PeriodInital", PeriodInital)
-    print("ChangeInPeriod", ChangeInPeriod)
+    print("PeriodFinal = ", round(PeriodFinal,SD))
+    print("ChangeInPeriod", round(ChangeInPeriod,SD))
+    print("loop count ", i)
+    print(" ")
+    
     if(-PeriodTolerance < ChangeInPeriod < PeriodTolerance):
         print("Type in anything to release the Solenoids")
         input()
         CurrentLightValue = lightSensor.getIlluminance()
-        time.sleep(0.05)
+        time.sleep(0.02)
         if(CurrentLightValue > BrightnessRegistor):
             #Relase Solenoids and record Period, VC
             pass
