@@ -6,7 +6,7 @@ from Phidget22.Devices.DCMotor import *
 import time
 import array 
 import numpy as np
-
+import pandas as pd
 
 # remember to comment lots 
 
@@ -22,8 +22,8 @@ PeriodTolerance = 0.10
 
 
 #in meters and in kilograms, change these
-ArmRadius = 40
-ObjectMass = 2
+ArmRadius = 0.2
+ObjectMass = 0.01
 
 # def motorstart():
 #     dcMotor0 = DCMotor()
@@ -75,26 +75,18 @@ def smallperiod():
    
 def CSVwrite(Period,ArmRadius,ObjectMass):
     
-    with open ('Lab_data.csv','a') as datafile:
-        datafile.write(str(Period) + "\n")
-        print("Period Data was writen")
-        
+    
     VelocityC = (2*(3.1415)*ArmRadius)/Period
     AccelC = (VelocityC * VelocityC)/ArmRadius
     ForceT = ObjectMass*AccelC
     
-    with open ('Lab_data.csv','b') as datafile:
+    with open ('Lab_data.csv','a , b , c ,d') as datafile:
+        datafile.write(str(Period) + "\n")
         datafile.write(str(VelocityC) + "\n")
-        print("Period Data was writen")
-    
-    with open ('Lab_data.csv','c') as datafile:
         datafile.write(str(AccelC) + "\n")
-        print("Period Data was writen")
-        
-    with open ('Lab_data.csv','d') as datafile:
         datafile.write(str(ForceT) + "\n")
         print("Period Data was writen")
-    
+          
     return
 
 
