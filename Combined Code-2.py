@@ -14,7 +14,7 @@ import csv
 LightSamples = 25
 i = 0
 SampleSum =  0
-LightCoe = 40
+LightCoe = -40
 MinTimeDifference = 0.05
 lightSensor = LightSensor()
 lightSensor.openWaitForAttachment(1000)
@@ -22,7 +22,7 @@ PeriodTolerance = 0.10
 
 
 #in meters and in kilograms, change these
-ArmRadius = 0.2
+ArmRadius = 0.225
 ObjectMass = 0.01
 
 # def motorstart():
@@ -55,8 +55,8 @@ def period(BrightnessRegistor,MinTimeDifference,LoopTimeStart):
           CurrentLightValue = lightSensor.getIlluminance()
           time.sleep(0.01)
           #when brightness is lowered it jumps back causing same effect
-          print(CurrentLightValue)
-          if(CurrentLightValue > BrightnessRegistor):
+          #print(CurrentLightValue)
+          if(CurrentLightValue < BrightnessRegistor):
               Time2 = time.perf_counter()
               Period = (Time2 - Time1)
               return Period
@@ -72,7 +72,12 @@ def smallperiod():
 #     print("this is the period,", Period)
 #     return
     
-   
+def CSVwriteStart():
+    print("Opening the data file...")
+    with open ('Lab_data.csv','w') as datafile:
+          write = csv.writer
+             
+
 def CSVwrite(Period,ArmRadius,ObjectMass):
     
     
@@ -80,20 +85,12 @@ def CSVwrite(Period,ArmRadius,ObjectMass):
     AccelC = (VelocityC * VelocityC)/ArmRadius
     ForceT = ObjectMass*AccelC
     
-    Vallist = str([Period, VelocityC, AccelC, ForceT])
-    i = 3
-    Vallist = np.array(Vallist)[:, None]
+    Datalist = [Period, VelocityC, AccelC, ForceT]
     
-    with open ('Lab_data.csv','w') as datafile:
-        datawriter = csv.writer(datafile, delimiter = ',')
-        for value in i:
-            datawriter.writerow(Vallist[value])
-#         datawriter.writerows([[Period], [VelocityC], [AccelC], [ForceT]])
-#         datafile.write(str(Period) + "\n")
-#         datafile.write(str(VelocityC) + "\n")
-#         datafile.write(str(AccelC) + "\n")
-#         datafile.write(str(ForceT) + "\n")
-        print("Period Data was writen")
+    with open ('Lab_data.csv','a') as datafile:
+        write = csv.writer(datafile)
+        write.writerow(Datalist)
+    print("Period Data was writen")
           
     return
 
@@ -177,16 +174,18 @@ while(Break == 0):
     print(" ")
     
     if(-PeriodTolerance < ChangeInPeriod < PeriodTolerance):
-        input("Type in anything to release the Solenoids ")
+        input("Type in anything to release the Solenoids: ")
         while(True):
             CurrentLightValue = lightSensor.getIlluminance()
             time.sleep(0.02)
-            if(CurrentLightValue > BrightnessRegistor):
+            if(CurrentLightValue < BrightnessRegistor):
+                #changed signs for the black paper
                 #Relase Solenoids and record Period, VC
                 dcMotor0.setTargetVelocity(0)
                 dcMotor1.setTargetVelocity(0)
                 CSVwrite(Period, ObjectMass, ArmRadius)
-                print("stop the motor to reset expariment and unplug the solenoids to cool them down")
+                print("Stop the motor to reset expariment and unplug the solen oids to cool them down.")
+                print(" ")
                 input("Input anything to continue the program")
                 print(" ")
                 dcMotor0.setTargetVelocity(1)
