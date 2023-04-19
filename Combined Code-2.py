@@ -1,4 +1,3 @@
-#Add Phidgets Library
 from Phidget22.Phidget import *
 from Phidget22.Devices.LightSensor import *
 from Phidget22.Devices.DCMotor import *
@@ -66,6 +65,7 @@ def CSVwrite(Period,ArmRadius,ObjectMass):
 
 
 ## main program starts here ##########################################################################################
+print("This is the program for Reinhardt's Lab.")
 print("Soleniods are being attached...")
 dcMotor0 = DCMotor()
 dcMotor1 = DCMotor()
@@ -83,7 +83,7 @@ dcMotor1.setTargetVelocity(1)
 
 
 SD = int(input("How many decimal places do you want to round to? "))
-input("put anything to start the loops. ")
+input("put anything to start the loops: ")
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
 print("Do not change the lighting of the room")
 
@@ -112,7 +112,7 @@ while (i < LightSamples):
         break
 
 
-input("Input anything to start the main program. ")
+input("Input anything to start the main program: ")
 
 #Varribles for main loop are created
 i = 0
@@ -133,8 +133,8 @@ while(Break == 0):
         else:
             break
     
-
-    print("\n", "Current period is: ", round(Period,SD))
+    print(" ")
+    print("Current period is: ", round(Period,SD))
     PeriodFinal = Period
     print("Inital period is:", round(PeriodInital,SD))
     
@@ -151,7 +151,8 @@ while(Break == 0):
     
     #Releases the solenoid if the change in the period is minimal, that is uniform circluar motion. 
     if(-PeriodTolerance < ChangeInPeriod < PeriodTolerance):
-        input("Type in anything to release the Solenoids: ")
+        input("Type in anything to release the solenoids: ")
+        print(" ")
         while(True):
             #the next time the light sensor is hit it releases the solenoid pins
             CurrentLightValue = lightSensor.getIlluminance()
