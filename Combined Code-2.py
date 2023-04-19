@@ -142,7 +142,7 @@ while (i < LightSamples):
 input("Input anything to start the main program. ")
 
 i = 0
-ProgramCheck = 400
+ProgramCheck = 40
 Break = 0
 PeriodInital = 0
 PeriodFinal = 0
