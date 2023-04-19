@@ -6,7 +6,7 @@ from Phidget22.Devices.DCMotor import *
 import time
 import array 
 import numpy as np
-import pandas as pd
+import csv
 
 # remember to comment lots 
 
@@ -80,11 +80,19 @@ def CSVwrite(Period,ArmRadius,ObjectMass):
     AccelC = (VelocityC * VelocityC)/ArmRadius
     ForceT = ObjectMass*AccelC
     
-    with open ('Lab_data.csv','a , b , c ,d') as datafile:
-        datafile.write(str(Period) + "\n")
-        datafile.write(str(VelocityC) + "\n")
-        datafile.write(str(AccelC) + "\n")
-        datafile.write(str(ForceT) + "\n")
+    Vallist = str([Period, VelocityC, AccelC, ForceT])
+    i = 3
+    Vallist = np.array(Vallist)[:, None]
+    
+    with open ('Lab_data.csv','w') as datafile:
+        datawriter = csv.writer(datafile, delimiter = ',')
+        for value in i:
+            datawriter.writerow(Vallist[value])
+#         datawriter.writerows([[Period], [VelocityC], [AccelC], [ForceT]])
+#         datafile.write(str(Period) + "\n")
+#         datafile.write(str(VelocityC) + "\n")
+#         datafile.write(str(AccelC) + "\n")
+#         datafile.write(str(ForceT) + "\n")
         print("Period Data was writen")
           
     return
