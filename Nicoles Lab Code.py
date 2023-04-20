@@ -73,7 +73,7 @@ print("Do not change the lighting of the room")
 
 time.sleep(3)
 
-LightSamples = 30
+LightSamples = 40
 i = 0
 SampleSum =  0
 
@@ -81,7 +81,7 @@ SampleSum =  0
 while (i < LightSamples):
     print(lightSensor.getIlluminance())
     SampleSum = SampleSum + lightSensor.getIlluminance()
-    time.sleep(0.3)
+    time.sleep(0.4)
     i = i + 1
     print("Cycles =", i)
     
@@ -100,11 +100,10 @@ input("Input anything to start the main program: ")
 
 #Varribles for main loop are created
 i = 0
-ProgramCheck = 800
 Break = 0
 PeriodInital = 0
 PeriodFinal = 0
-Cycles = 10
+Cycles = 20
 
 while(Break == 0):
     LoopTimeStart = time.perf_counter()
@@ -143,26 +142,10 @@ while(Break == 0):
         print("Change the velocity/ power on the motor for next measurement")
         input("Input anything to continue the program: ")
         print(" ")
+        i = 0
             
-        
-    #After some amount of loops this program runs it asks if more observations
-    #Still want to be done, using i varbile to count times
     
-    if(i >=  ProgramCheck):
-        print("Do you want to break out of program? Type, 1 for yes, 2 for no")
-        Command = int(input())
-        if(Command == 1):
-            i = 0
-            Break = 1
-            print(Break)
-            continue
-        elif(Command == 2):
-            i = 0
-            continue
-        
-print("program ended")
-while(True):
-    pass
+    
     
         
         
