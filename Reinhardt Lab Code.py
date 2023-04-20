@@ -55,7 +55,7 @@ def CSVwrite(Period,ArmRadius,ObjectMass):
     
     Datalist = [Period, VelocityC, AccelC, ForceT]
     
-    with open ('Lab_data.csv','a') as datafile:
+    with open ('Lab_dataReinhardt.csv','a') as datafile:
         write = csv.writer(datafile)
         write.writerow(Datalist)
     print("Period Data was writen")
