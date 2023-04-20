@@ -1,5 +1,6 @@
 from Phidget22.Phidget import *
 from Phidget22.Devices.LightSensor import *
+from Phidget22.Devices.BLDCMotor import *
 import time
 import array 
 import numpy as np
@@ -7,13 +8,19 @@ import csv
 
 lightSensor = LightSensor()
 lightSensor.openWaitForAttachment(1000)
+bldcMotor0 = BLDCMotor()
+
+bldcMotor0.setHubPort(3)
+
+bldcMotor0.openWaitForAttachment(5000)
+
 
 
 #Varribles for code
 LightCoe = -40
 MinTimeDifference = 0.05
 PeriodTolerance = 0.10
-
+MotorSpeed = 0
 #Varribles for calculations
 #in meters and in kilograms, change these
 ArmRadius = 0.225
@@ -69,6 +76,9 @@ def CSVwrite(Period,ArmRadius,ObjectMass):
 print("This is the program for Nicole's Lab.")
 
 SD = int(input("How many decimal places do you want to round to? "))
+MotorSpeed = float(input("Type in a Motor Speed between 1 and 0: "))
+print("Motor will start after the light sampling")
+time.sleep(4)
 input("put anything to start the loops: ")
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
 print("Do not change the lighting of the room")
@@ -83,7 +93,7 @@ SampleSum =  0
 while (i < LightSamples):
     print(lightSensor.getIlluminance())
     SampleSum = SampleSum + lightSensor.getIlluminance()
-    time.sleep(0.4)
+    time.sleep(0.2)
     i = i + 1
     print("Cycles =", i)
     
@@ -98,7 +108,7 @@ while (i < LightSamples):
         break
 
 
-input("Input anything to start the main program: ")
+input("Input anything to start the main program, MOTORS WILL START: ")
 
 #Varribles for main loop are created
 i = 0
@@ -106,6 +116,8 @@ Break = 0
 PeriodInital = 0
 PeriodFinal = 0
 Cycles = 20
+
+bldcMotor0.setTargetVelocity(MotorSpeed)
 
 while(Break == 0):
     LoopTimeStart = time.perf_counter()
@@ -144,7 +156,10 @@ while(Break == 0):
         print(" ")
         
         CSVwrite(Period, ObjectMass, ArmRadius)
-        print("Change the velocity/ power on the motor for next measurement")
+        print("Motors will Now Stop")
+        bldcMotor0.setTargetVelocity(0)
+        MotorSpeed = float(input("Type in a mew motor speed between 1 and 0: "))
+        bldcMotor0.setTargetVelocity(MotorSpeed)
         input("Input anything to continue the program: ")
         print(" ")
         i = 0

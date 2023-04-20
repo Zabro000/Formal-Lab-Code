@@ -1,6 +1,8 @@
 from Phidget22.Phidget import *
 from Phidget22.Devices.LightSensor import *
 from Phidget22.Devices.DCMotor import *
+from Phidget22.Devices.BLDCMotor import *
+from Phidget22.Phidget import *
 import time
 import array 
 import numpy as np
@@ -9,6 +11,11 @@ import csv
 lightSensor = LightSensor()
 lightSensor.openWaitForAttachment(1000)
 
+bldcMotor0 = BLDCMotor()
+
+bldcMotor0.setHubPort(3)
+
+bldcMotor0.openWaitForAttachment(5000)
 
 #Varribles for code
 LightCoe = -40
@@ -66,13 +73,13 @@ def CSVwrite(Period,ArmRadius,ObjectMass):
 
 ## main program starts here ##########################################################################################
 print("This is the program for Reinhardt's Lab.")
-print("Soleniods are being attached...")
+print("Soleniods and motors are being attached...")
 dcMotor0 = DCMotor()
 dcMotor1 = DCMotor()
 
-dcMotor0.setHubPort(5)
+dcMotor0.setHubPort(4)
 dcMotor0.setChannel(0)
-dcMotor1.setHubPort(5)
+dcMotor1.setHubPort(4)
 dcMotor1.setChannel(1)
 
 dcMotor0.openWaitForAttachment(5000)
@@ -82,7 +89,16 @@ dcMotor0.setTargetVelocity(1)
 dcMotor1.setTargetVelocity(1)
 
 
+
+
+
+
+
 SD = int(input("How many decimal places do you want to round to? "))
+MotorSpeed = float(input("Type in a Motor Speed between 1 and 0: "))
+print("Motor will start after the light sampling")
+time.sleep(4)
+
 input("put anything to start the loops: ")
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
 print("Do not change the lighting of the room")
@@ -112,7 +128,7 @@ while (i < LightSamples):
         break
 
 
-input("Input anything to start the main program: ")
+input("Input anything to start the main program, MOTORS WILL START: ")
 
 #Varribles for main loop are created
 i = 0
@@ -120,6 +136,12 @@ ProgramCheck = 40
 Break = 0
 PeriodInital = 0
 PeriodFinal = 0
+
+#Motors are now on
+bldcMotor0.setTargetVelocity(MotorSpeed)
+print("Motors are starting...")
+time.sleep(5)
+print("Loops starting, motors are on.")
 
 while(Break == 0):
     LoopTimeStart = time.perf_counter()
@@ -163,13 +185,25 @@ while(Break == 0):
                 #Relase Solenoids and record Period, VC
                 dcMotor0.setTargetVelocity(0)
                 dcMotor1.setTargetVelocity(0)
+                
+                
                 CSVwrite(Period, ObjectMass, ArmRadius)
                 
-                print("Stop the motor to reset expariment and unplug the solen oids to cool them down.")
+                #delay time to keep the motor spinning
+                time.sleep(2)
+                
+                print("Motors will Now Stop..")
+                bldcMotor0.setTargetVelocity(0)
+                MotorSpeed = float(input("Type in a mew motor speed between 1 and 0: "))
+                bldcMotor0.setTargetVelocity(MotorSpeed)
+                
+                print("Unplug the solenoids to cool them down wait like a few minutes...")
                 print(" ")
-                input("Input anything to continue the program: ")
+                input("Input anything to continue the program and run the motors and power the solenoids: ")
                 print(" ")
                 
+                
+                bldcMotor0.setTargetVelocity(MotorSpeed)
                 dcMotor0.setTargetVelocity(1)
                 dcMotor1.setTargetVelocity(1)
                 break
