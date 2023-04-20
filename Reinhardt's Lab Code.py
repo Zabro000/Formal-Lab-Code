@@ -56,9 +56,9 @@ def CSVwriteStart():
 #writes all data to a csv file for later use in graphing
 def CSVwrite(Period,ArmRadius,ObjectMass):
     
-    VelocityC = (2*(3.1415)*ArmRadius)/Period
+    VelocityC = (2* (3.1415) *ArmRadius)/Period
     AccelC = (VelocityC * VelocityC)/ArmRadius
-    ForceT = (ObjectMass*AccelC)
+    ForceT = (ObjectMass * AccelC)
     
     Datalist = [Period, VelocityC, AccelC, ForceT]
     
