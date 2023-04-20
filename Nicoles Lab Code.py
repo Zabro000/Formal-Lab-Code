@@ -78,22 +78,21 @@ print("This is the program for Nicole's Lab.")
 SD = int(input("How many decimal places do you want to round to? "))
 MotorSpeed = float(input("Type in a Motor Speed between 1 and 0: "))
 print("Motor will start after the light sampling")
+
 time.sleep(4)
+
 input("put anything to start the loops: ")
 print("Light sensor calibration starting", LightSamples, "light samples will be taken" )
 print("Do not change the lighting of the room")
 
 time.sleep(3)
 
-LightSamples = 40
-i = 0
-SampleSum =  0
 
 #finds the average ambient brightness of the room over a number of samples
 while (i < LightSamples):
     print(lightSensor.getIlluminance())
     SampleSum = SampleSum + lightSensor.getIlluminance()
-    time.sleep(0.2)
+    time.sleep(0.4)
     i = i + 1
     print("Cycles =", i)
     
@@ -158,8 +157,11 @@ while(Break == 0):
         CSVwrite(Period, ObjectMass, ArmRadius)
         print("Motors will Now Stop")
         bldcMotor0.setTargetVelocity(0)
+        
         MotorSpeed = float(input("Type in a mew motor speed between 1 and 0: "))
+        
         bldcMotor0.setTargetVelocity(MotorSpeed)
+        
         input("Input anything to continue the program: ")
         print(" ")
         i = 0

@@ -25,10 +25,10 @@ PeriodTolerance = 0.10
 #Varribles for calculations
 #in meters and in kilograms, change these
 ArmRadius = 0.225
-ObjectMass = 0.01
+ObjectMass = 0.008
 
 #light sample varribles
-LightSamples = 30
+LightSamples = 40
 i = 0
 SampleSum =  0
 
@@ -96,7 +96,8 @@ dcMotor1.setTargetVelocity(1)
 
 SD = int(input("How many decimal places do you want to round to? "))
 MotorSpeed = float(input("Type in a Motor Speed between 1 and 0: "))
-print("Motor will start after the light sampling")
+print("The motor will start after the light sampling")
+
 time.sleep(4)
 
 input("put anything to start the loops: ")
@@ -104,10 +105,6 @@ print("Light sensor calibration starting", LightSamples, "light samples will be 
 print("Do not change the lighting of the room")
 
 time.sleep(3)
-
-LightSamples = 30
-i = 0
-SampleSum =  0
 
 #finds the average ambient brightness of the room over a number of samples
 while (i < LightSamples):
@@ -192,7 +189,7 @@ while(Break == 0):
                 #delay time to keep the motor spinning
                 time.sleep(2)
                 
-                print("Motors will Now Stop..")
+                print("Motors will now stop...")
                 bldcMotor0.setTargetVelocity(0)
                 MotorSpeed = float(input("Type in a mew motor speed between 1 and 0: "))
                 bldcMotor0.setTargetVelocity(MotorSpeed)
