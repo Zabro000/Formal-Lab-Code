@@ -154,7 +154,7 @@ while(Break == 0):
         input("Type in anything to release measure the system: ")
         print(" ")
         
-        CSVwrite(Period, ObjectMass, ArmRadius)
+        CSVwrite(Period,ArmRadius,ObjectMass)
         print("Motors will Now Stop")
         bldcMotor0.setTargetVelocity(0)
         

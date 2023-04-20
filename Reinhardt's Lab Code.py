@@ -184,7 +184,7 @@ while(Break == 0):
                 dcMotor1.setTargetVelocity(0)
                 
                 
-                CSVwrite(Period, ObjectMass, ArmRadius)
+                CSVwrite(Period,ArmRadius,ObjectMass)
                 
                 #delay time to keep the motor spinning
                 time.sleep(2)
