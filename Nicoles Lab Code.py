@@ -44,13 +44,15 @@ def CSVwriteStart():
     print("Opening the data file...")
     with open ('Lab_data.csv','w') as datafile:
           write = csv.writer
-             
+          
+          
+          
 #writes all data to a csv file for later use in graphing
 def CSVwrite(Period,ArmRadius,ObjectMass):
     
-    VelocityC = (2*(3.1415)*ArmRadius)/Period
-    AccelC = (VelocityC * VelocityC)/ArmRadius
-    ForceT = ObjectMass*AccelC
+    VelocityC = ((2*(3.1415)*ArmRadius)/Period)
+    AccelC = ((VelocityC * VelocityC)/ArmRadius)
+    ForceT = (ObjectMass*AccelC)
     
     Datalist = [Period, VelocityC, AccelC, ForceT]
     
@@ -133,7 +135,10 @@ while(Break == 0):
     print("Cycles: ", i)
     print(" ")
     
-    #Releases the solenoid if the change in the period is minimal, that is uniform circluar motion. 
+    # uses an if statement with two conditions
+    # iterations of the loop has to be alot to give the time for the motor ot warm up
+    # the period has to be the same (uniform circluar motion )
+    # data is then collected
     if(i >= Cycles) and (-PeriodTolerance < ChangeInPeriod < PeriodTolerance):
         input("Type in anything to release measure the system: ")
         print(" ")
