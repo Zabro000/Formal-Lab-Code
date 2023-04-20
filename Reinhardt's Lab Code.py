@@ -24,8 +24,8 @@ PeriodTolerance = 0.10
 
 #Varribles for calculations
 #in meters and in kilograms, change these
-ArmRadius = 0.225
-ObjectMass = 0.008
+ArmRadius = 0.225 # 22.5 centimeters
+ObjectMass = 0.00080 # 0.80 grams
 
 #light sample varribles
 LightSamples = 40
@@ -58,7 +58,7 @@ def CSVwrite(Period,ArmRadius,ObjectMass):
     
     VelocityC = (2*(3.1415)*ArmRadius)/Period
     AccelC = (VelocityC * VelocityC)/ArmRadius
-    ForceT = ObjectMass*AccelC
+    ForceT = (ObjectMass*AccelC)
     
     Datalist = [Period, VelocityC, AccelC, ForceT]
     
@@ -196,13 +196,15 @@ while(Break == 0):
                 
                 print("Unplug the solenoids to cool them down wait like a few minutes...")
                 print(" ")
-                input("Input anything to continue the program and run the motors and power the solenoids: ")
+                input("Input anything to power the solenoids: ")
                 print(" ")
                 
-                
-                bldcMotor0.setTargetVelocity(MotorSpeed)
                 dcMotor0.setTargetVelocity(1)
                 dcMotor1.setTargetVelocity(1)
+                
+                input("Input andything to power the motor and continue the program")
+                print(" ")
+                bldcMotor0.setTargetVelocity(MotorSpeed)
                 break
             
         

@@ -24,7 +24,7 @@ MotorSpeed = 0
 #Varribles for calculations
 #in meters and in kilograms, change these
 ArmRadius = 0.225
-ObjectMass = 0.01
+ObjectMass = 0.0008
 
 #light sample varribles
 LightSamples = 30
@@ -57,9 +57,9 @@ def CSVwriteStart():
 #writes all data to a csv file for later use in graphing
 def CSVwrite(Period,ArmRadius,ObjectMass):
     
-    VelocityC = ((2*(3.1415)*ArmRadius)/Period)
-    AccelC = ((VelocityC * VelocityC)/ArmRadius)
-    ForceT = (ObjectMass*AccelC)
+    VelocityC = (2 * 3.1415 * ArmRadius)/Period
+    AccelC = (VelocityC * VelocityC)/ArmRadius
+    ForceT = (ObjectMass * AccelC)
     
     Datalist = [Period, VelocityC, AccelC, ForceT]
     
