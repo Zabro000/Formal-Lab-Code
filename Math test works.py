@@ -1,4 +1,4 @@
-Period = 0.2689
+Period = 0.2679842
 Radius = 0.225
 mass = 0.0008
 
