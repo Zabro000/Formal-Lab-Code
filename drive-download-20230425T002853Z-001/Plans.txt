@@ -1,3 +1,0 @@
-automatic calibration for the lightSensor
-inputs for SDs 
-Inputs to release the solionds with text commands 

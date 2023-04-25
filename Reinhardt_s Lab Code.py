@@ -18,14 +18,14 @@ bldcMotor0.setHubPort(3)
 bldcMotor0.openWaitForAttachment(5000)
 
 #Varribles for code
-LightCoe = -40
+LightCoe = -17
 MinTimeDifference = 0.05
-PeriodTolerance = 0.10
+PeriodTolerance = 0.30
 
 #Varribles for calculations
 #in meters and in kilograms, change these
-ArmRadius = 0.225 # 22.5 centimeters
-ObjectMass = 0.00080 # 0.80 grams
+ArmRadius = 0.120 # 22.5 centimeters
+ObjectMass = 0.0212 # 0.80 grams
 
 #light sample varribles
 LightSamples = 40
@@ -137,7 +137,7 @@ PeriodFinal = 0
 #Motors are now on
 bldcMotor0.setTargetVelocity(MotorSpeed)
 print("Motors are starting...")
-time.sleep(5)
+
 print("Loops starting, motors are on.")
 
 while(Break == 0):
